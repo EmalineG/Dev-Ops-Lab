@@ -24,6 +24,10 @@ app.get('/api/students', (req, res) => {
     res.status(200).send(students)
 })
 
+app.get('/api/apples', (req, res) => {
+  res.status(200).send(students)
+})
+
 app.post('/api/students', (req, res) => {
    let {name} = req.body
 
@@ -54,6 +58,7 @@ app.delete('/api/students/:index', (req, res) => {
     students.splice(targetIndex, 1)
     res.status(200).send(students)
 })
+
 
 const port = process.env.PORT || 5050
 
