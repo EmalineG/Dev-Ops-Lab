@@ -25,7 +25,7 @@ app.get('/api/messages', (req, res) => {
 })
 
 app.post('/api/messages', (req, res) => {
-   let {name} = req.body
+   let {msg} = req.body
 
    const index = messages.findIndex(message => {
        return message === msg
@@ -36,7 +36,7 @@ app.post('/api/messages', (req, res) => {
            messages.push(msg)
            res.status(200).send(messages)
            rollbar.log('message successfully pushed to array')
-       } else if (name === ''){
+       } else if (msg === ''){
            res.status(400).send('You didnt write anything')
            rollbar.error('No message provided')
        } else {
