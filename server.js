@@ -14,49 +14,45 @@ var rollbar = new Rollbar({
   captureUnhandledRejections: true,
 })
 
-const students = ['Jimmy', 'Timothy', 'Jimothy']
+const messages = ['Hiiii', 'whats up', 'plants have little mouths on them they breathe out of']
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '/index.html'))
 })
 
-app.get('/api/students', (req, res) => {
-    res.status(200).send(students)
+app.get('/api/messages', (req, res) => {
+    res.status(200).send(messages)
 })
 
-app.get('/api/apples', (req, res) => {
-  res.status(200).send(students)
-})
-
-app.post('/api/students', (req, res) => {
+app.post('/api/messages', (req, res) => {
    let {name} = req.body
 
-   const index = students.findIndex(student => {
-       return student === name
+   const index = messages.findIndex(message => {
+       return message === msg
    })
 
    try {
-       if (index === -1 && name !== '') {
-           students.push(name)
-           rollbar.log('Student wahgfdhcessfully')
-           res.status(200).send(students)
+       if (index === -1 && msg !== '') {
+           messages.push(msg)
+           res.status(200).send(messages)
+           rollbar.log('message successfully pushed to array')
        } else if (name === ''){
-           res.status(400).send('You must enter a name.')
-           rollbar.error('No name provided')
+           res.status(400).send('You didnt write anything')
+           rollbar.error('No message provided')
        } else {
-           res.status(400).send('That student already exists.')
-           rollbar.error('Student is already in array')
+           res.status(400).send('Dont spam my wall!')
+           rollbar.error('message is already in array')
        }
    } catch (err) {
        console.log(err)
    }
 })
 
-app.delete('/api/students/:index', (req, res) => {
+app.delete('/api/messages/:index', (req, res) => {
     const targetIndex = +req.params.index
     
-    students.splice(targetIndex, 1)
-    res.status(200).send(students)
+    messages.splice(targetIndex, 1)
+    res.status(200).send(messages)
 })
 
 

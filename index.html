@@ -5,37 +5,37 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student List</title>
+    <title>MyWebWall</title>
 </head>
 
 <body>
-    <h1>Write ondgdsfhdhy wall!</h1>
+    <h1>Write on my wall!</h1>
     <form>
-        <input type='text' placeholder='type a student name here...' />
-        <button>add student</button>
+        <input type='text' placeholder='I like random facts' />
+        <button>Post it!</button>
     </form>
     <section></section>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     <script>
         const addForm = document.querySelector('form');
-        const nameInput = document.querySelector('input');
+        const msgInput = document.querySelector('input');
         const container = document.querySelector('section');
 
         function putTheThingInTheView(res) {
             container.innerHTML = ''
-            nameInput.value = ''
+            msgInput.value = ''
 
-            res.data.forEach((studentName, index) => {
-                container.innerHTML += `<p name=${index}>${studentName}</p>`
+            res.data.forEach((msgContent, index) => {
+                container.innerHTML += `<p msg=${index}>${msgContent}</p>`
             })
 
             document.querySelectorAll('p').forEach(element => {
-                const theIndexValue = element.getAttribute('name');
+                const theIndexValue = element.getAttribute('msg');
 
                 element.addEventListener('click', () => {
                     axios
-                        .delete(`/api/students/${theIndexValue}`)
+                        .delete(`/api/messages/${theIndexValue}`)
                         .then(res => {
                             putTheThingInTheView(res)
                         })
@@ -47,12 +47,12 @@
             evt.preventDefault();
 
             axios
-                .post('/api/students', { name: nameInput.value })
+                .post('/api/messages', { msg: msgInput.value })
                 .then(res => {
                     putTheThingInTheView(res)
                 })
                 .catch(err => {
-                    nameInput.value = ''
+                    msgInput.value = ''
 
                     const notif = document.createElement('aside')
                     notif.innerHTML = `<p>${err.response.data}</p>
@@ -69,7 +69,7 @@
 
         // get student list on initial load
         axios
-            .get('/api/students')
+            .get('/api/messages')
             .then(res => {
                 putTheThingInTheView(res)
             })
